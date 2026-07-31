@@ -105,7 +105,7 @@ export default function ProductGrid({ products }: { products: Product[] }) {
                 rel="noopener noreferrer"
                 className="btn-lux btn-ghost mt-3 w-full py-3.5 text-sm"
               >
-                Play Now on {p.url.replace(/^https?:\/\//, "").replace(/\/$/, "")} ↗
+                Play Now ↗
               </a>
             </article>
           ))}
