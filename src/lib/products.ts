@@ -22,7 +22,7 @@ export const PRODUCTS: Product[] = [
     name: "SKY247",
     tagline: "Where the Sky Is Never the Limit",
     desc: "The flagship sportsbook — 100+ sports, live cricket markets and a full casino floor.",
-    url: "https://sky247.io/",
+    url: "https://skyexch247.io/",
     logo: { src: "/brands/sky247.png", width: 843, height: 419, alt: "SKY247 logo" },
     logoBox: "h-16 w-36 sm:h-20 sm:w-44",
     accent: "#ffd54a",

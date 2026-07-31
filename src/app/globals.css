@@ -305,3 +305,127 @@ body {
     transform: none;
   }
 }
+
+/* ---------- Shimmer sweep (continuous, for Play Now / CTAs) ---------- */
+
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, 0.22) 50%, transparent 65%);
+  transform: translateX(-130%);
+  animation: shine 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes shine {
+  55%, 100% { transform: translateX(130%) }
+}
+
+/* ---------- 3D tilt cards (driven by ParallaxFX, desktop pointer only) ---------- */
+
+.tilt {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.tilt > * {
+  transform: translateZ(24px);
+  transform-style: preserve-3d;
+}
+
+/* ---------- Parallax layers (driven by ParallaxFX) ---------- */
+
+.parallax-layer {
+  will-change: transform;
+}
+
+/* ---------- Ticker / marquee strip ---------- */
+
+.ticker {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+.ticker:hover .ticker-track {
+  animation-play-state: paused;
+}
+
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0 1.6rem;
+  white-space: nowrap;
+  font-family: var(--font-sora);
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.ticker-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: linear-gradient(120deg, rgb(var(--accent-rgb)), rgb(var(--accent-2-rgb)));
+  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.7);
+}
+
+/* ---------- Animated gradient border for the featured card ---------- */
+
+.ring-border {
+  position: relative;
+  border-radius: 1.5rem;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--ring-angle, 0deg),
+    rgba(var(--accent-rgb), 0) 0%,
+    rgba(var(--accent-rgb), 0.9) 12%,
+    rgba(var(--accent-2-rgb), 0.9) 24%,
+    rgba(var(--accent-rgb), 0) 38%,
+    rgba(var(--accent-rgb), 0) 100%
+  );
+  animation: border-spin 5s linear infinite;
+}
+
+.ring-border > .ring-inner {
+  border-radius: calc(1.5rem - 1px);
+  height: 100%;
+}
+
+@keyframes border-spin {
+  to { --ring-angle: 360deg }
+}
+
+@property --ring-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none }
+  .btn-shine::after { animation: none; display: none }
+  .ring-border { animation: none }
+}
+
+/* tilt needs a snappier transition than the default glass-card one */
+.tilt {
+  transition: transform 0.18s ease-out, border-color 0.4s ease, box-shadow 0.5s ease;
+}
+
+/* featured product card — accent border + glow (shimmer sweep via .btn-shine) */
+.card-featured {
+  border-color: rgba(var(--accent-rgb), 0.45);
+  box-shadow:
+    0 0 44px -12px rgba(var(--accent-rgb), 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}

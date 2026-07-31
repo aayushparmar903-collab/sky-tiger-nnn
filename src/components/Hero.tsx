@@ -52,11 +52,12 @@ export default function Hero() {
               </span>
             </div>
 
-            {/* hero artwork */}
-            <div
-              className="reveal relative mx-auto mt-10 max-w-6xl"
-              style={{ "--reveal-delay": "120ms" } as React.CSSProperties}
-            >
+            {/* hero artwork — drifts gently on scroll */}
+            <div className="parallax-layer" data-speed="0.06">
+              <div
+                className="reveal relative mx-auto mt-10 max-w-6xl"
+                style={{ "--reveal-delay": "120ms" } as React.CSSProperties}
+              >
               <div
                 className="pointer-events-none absolute -inset-6 rounded-[2.5rem] opacity-60 blur-3xl"
                 style={{
@@ -73,6 +74,7 @@ export default function Hero() {
                   className="relative w-full rounded-[1.5rem] border border-white/10 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]"
                 />
               </picture>
+              </div>
             </div>
 
             <p

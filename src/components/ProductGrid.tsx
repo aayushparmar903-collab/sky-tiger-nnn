@@ -17,7 +17,7 @@ export default function ProductGrid({ products }: { products: Product[] }) {
       {products.map((p, i) => (
             <article
               key={p.id}
-              className="glass-card reveal group flex flex-col p-7 sm:p-8"
+              className={`glass-card reveal tilt group flex flex-col p-7 sm:p-8 ${p.badge ? "card-featured btn-shine" : ""}`}
               style={
                 {
                   "--accent": p.accent,
@@ -103,7 +103,7 @@ export default function ProductGrid({ products }: { products: Product[] }) {
                 href={p.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-lux btn-ghost mt-3 w-full py-3.5 text-sm"
+                className="btn-lux btn-ghost btn-shine mt-3 w-full py-3.5 text-sm"
               >
                 Play Now ↗
               </a>
