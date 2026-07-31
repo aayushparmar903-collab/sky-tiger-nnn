@@ -103,7 +103,7 @@ export default function ProductGrid({ products }: { products: Product[] }) {
                 href={p.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-lux btn-ghost btn-shine mt-3 w-full py-3.5 text-sm"
+                className="btn-lux btn-play btn-shine mt-3 w-full py-3.5 text-sm"
               >
                 Play Now ↗
               </a>

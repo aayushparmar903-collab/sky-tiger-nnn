@@ -429,3 +429,40 @@ body {
     0 0 44px -12px rgba(var(--accent-rgb), 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
+
+/* ---------- Play Now — branded accent button (uses each card's --accent) ---------- */
+
+.btn-play {
+  color: rgb(var(--accent-rgb));
+  background: linear-gradient(120deg, rgba(var(--accent-rgb), 0.18), rgba(var(--accent-2-rgb), 0.1));
+  border: 1px solid rgba(var(--accent-rgb), 0.5);
+  box-shadow: 0 8px 26px -12px rgba(var(--accent-rgb), 0.55);
+}
+
+.btn-play:hover {
+  border-color: rgba(var(--accent-rgb), 0.85);
+  box-shadow:
+    0 14px 38px -12px rgba(var(--accent-rgb), 0.75),
+    0 0 0 1px rgba(var(--accent-rgb), 0.25) inset;
+}
+
+.btn-play::after {
+  background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, 0.4) 50%, transparent 65%);
+}
+
+/* Play Now — brighter revision */
+.btn-play {
+  color: color-mix(in srgb, rgb(var(--accent-rgb)) 60%, #ffffff);
+  background: linear-gradient(120deg, rgba(var(--accent-rgb), 0.34), rgba(var(--accent-2-rgb), 0.22));
+  border: 1px solid rgba(var(--accent-rgb), 0.7);
+  box-shadow:
+    0 10px 32px -10px rgba(var(--accent-rgb), 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  text-shadow: 0 0 14px rgba(var(--accent-rgb), 0.5);
+}
+
+.btn-play:hover {
+  color: #ffffff;
+  border-color: rgb(var(--accent-rgb));
+  background: linear-gradient(120deg, rgba(var(--accent-rgb), 0.5), rgba(var(--accent-2-rgb), 0.34));
+}
