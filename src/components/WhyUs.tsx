@@ -33,7 +33,7 @@ const REASONS = [
 
 export default function WhyUs() {
   return (
-    <section id="why" className="relative py-20 sm:py-28">
+    <section id="why" className="relative overflow-hidden py-20 sm:py-28">
       <div className="aurora-blob left-[30%] top-[20%] h-[26rem] w-[26rem] bg-[rgba(255,213,74,0.08)]" />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <div className="reveal mx-auto max-w-2xl text-center">

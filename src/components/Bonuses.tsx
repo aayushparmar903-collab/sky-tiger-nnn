@@ -25,7 +25,7 @@ const BONUSES = [
 
 export default function Bonuses() {
   return (
-    <section id="bonuses" className="relative py-16 sm:py-24">
+    <section id="bonuses" className="relative overflow-hidden py-16 sm:py-24">
       <div className="aurora-blob left-[55%] top-[10%] h-[24rem] w-[24rem] bg-[rgba(212,245,33,0.09)]" />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <div className="reveal mx-auto max-w-2xl text-center">
