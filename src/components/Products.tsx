@@ -13,11 +13,7 @@ export default function Products() {
         <div className="reveal mx-auto max-w-2xl text-center">
           <p className="eyebrow">Choose Your Arena</p>
           <h2 className="font-display mt-4 text-3xl font-bold tracking-tight sm:text-5xl">
-            {visible.length === 1 ? (
-              <>Our Platform. <span className="text-gradient">One Standard.</span></>
-            ) : (
-              <>{visible.length === 2 ? "Two" : "Three"} Platforms. <span className="text-gradient">One Standard.</span></>
-            )}
+            Pick Your Platform. <span className="text-gradient">Play Your Way.</span>
           </h2>
           <p className="mt-4 text-[var(--color-mist)]">
             Every ID starts at just ₹{SITE.minId} — verified, activated instantly and backed by {SITE.supportHours} support.
