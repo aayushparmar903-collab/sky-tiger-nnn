@@ -16,8 +16,8 @@ export default function Home() {
       <div className="vignette" />
       <Navbar />
       <Hero />
-      <Bonuses />
       <Products />
+      <Bonuses />
       <WhyUs />
       <Payments />
       <Footer />

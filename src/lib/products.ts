@@ -27,7 +27,7 @@ export const PRODUCTS: Product[] = [
     logoBox: "h-16 w-36 sm:h-20 sm:w-44",
     accent: "#ffd54a",
     accent2: "#00d4ff",
-    features: ["100+ sports & live markets", "5,000+ casino games", "60-second withdrawals"],
+    features: ["100+ sports & live markets", "5,000+ casino games", "5-minute withdrawals"],
     badge: "Most Popular",
   },
   {

@@ -9,12 +9,18 @@ import { PRODUCTS } from "@/lib/products";
  * it automatically becomes the hero artwork — no code change needed.
  * Until then a designed logo composition is shown.
  */
-function findHeroArt(): string | null {
+function findHeroArt(): { desktop: string; mobile: string | null } | null {
   const dir = path.join(process.cwd(), "public");
+  let desktop: string | null = null;
   for (const name of ["hero.webp", "hero.png", "hero.jpg", "hero.jpeg"]) {
-    if (existsSync(path.join(dir, name))) return `/${name}`;
+    if (existsSync(path.join(dir, name))) {
+      desktop = `/${name}`;
+      break;
+    }
   }
-  return null;
+  if (!desktop) return null;
+  const mobile = existsSync(path.join(dir, "hero-mobile.webp")) ? "/hero-mobile.webp" : null;
+  return { desktop, mobile };
 }
 
 export default function Hero() {
@@ -58,12 +64,15 @@ export default function Hero() {
                     "radial-gradient(60% 60% at 50% 50%, rgba(var(--accent-rgb), 0.18), transparent 70%)",
                 }}
               />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={heroArt}
-                alt="ONEXALL.VIP — Your game, your way, your win. Live betting, top odds, instant payouts."
-                className="relative w-full rounded-[1.5rem] border border-white/10 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]"
-              />
+              <picture>
+                {heroArt.mobile && <source media="(max-width: 640px)" srcSet={heroArt.mobile} />}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={heroArt.desktop}
+                  alt="ONEXALL.VIP — Your game, your way, your win. Live betting, top odds, instant payouts."
+                  className="relative w-full rounded-[1.5rem] border border-white/10 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]"
+                />
+              </picture>
             </div>
 
             <p
@@ -71,7 +80,7 @@ export default function Hero() {
               style={{ "--reveal-delay": "220ms" } as React.CSSProperties}
             >
               {SITE.name} is your single gateway to SKY247, REDDY247 and TIGEREXCH —
-              verified IDs, instant UPI deposits and lightning-fast withdrawals.
+              verified IDs, instant UPI deposits and 5-minute withdrawals.
             </p>
 
             <div
@@ -125,7 +134,7 @@ function FallbackHero() {
           style={{ "--reveal-delay": "180ms" } as React.CSSProperties}
         >
           {SITE.name} is your single gateway to SKY247, REDDY247 and TIGEREXCH —
-          verified IDs, instant UPI deposits and lightning-fast withdrawals.
+          verified IDs, instant UPI deposits and 5-minute withdrawals.
         </p>
 
         <div

@@ -16,8 +16,8 @@ const REASONS = [
     ),
   },
   {
-    title: "60-Sec Withdrawals",
-    desc: "Cash out to UPI or bank in under a minute, any time of day or night.",
+    title: "5-Min Withdrawals",
+    desc: "Cash out to UPI or bank within 5 minutes, any time of day or night.",
     icon: (
       <path d="M12 8v4l2.5 2.5M21 12a9 9 0 1 1-9-9 9 9 0 0 1 9 9Z" strokeLinejoin="round" />
     ),
@@ -78,7 +78,7 @@ export default function WhyUs() {
         <div className="glass reveal mt-14 grid grid-cols-2 divide-x divide-[var(--color-line)] rounded-2xl md:grid-cols-4">
           {[
             { v: `₹${SITE.minId}`, l: "Minimum ID" },
-            { v: "60s", l: "Avg. Withdrawal" },
+            { v: "5 Min", l: "Avg. Withdrawal" },
             { v: "3", l: "Elite Platforms" },
             { v: "24/7", l: "Live Support" },
           ].map((s) => (
