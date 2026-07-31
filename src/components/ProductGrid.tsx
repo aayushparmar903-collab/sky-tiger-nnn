@@ -103,9 +103,9 @@ export default function ProductGrid({ products }: { products: Product[] }) {
                 href={p.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-3 text-center text-xs text-[var(--color-mist)] underline-offset-4 transition hover:text-white hover:underline"
+                className="btn-lux btn-ghost mt-3 w-full py-3.5 text-sm"
               >
-                Visit {p.url.replace(/^https?:\/\//, "").replace(/\/$/, "")} ↗
+                Play Now on {p.url.replace(/^https?:\/\//, "").replace(/\/$/, "")} ↗
               </a>
             </article>
           ))}
