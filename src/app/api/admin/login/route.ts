@@ -12,12 +12,12 @@ export async function POST(request: Request) {
   const username = typeof body.username === "string" ? body.username : "";
   const password = typeof body.password === "string" ? body.password : "";
 
-  if (!checkCredentials(username, password)) {
+  if (!(await checkCredentials(username, password))) {
     return Response.json({ ok: false, error: "Invalid credentials" }, { status: 401 });
   }
 
   const jar = await cookies();
-  jar.set(ADMIN_COOKIE, expectedToken(), {
+  jar.set(ADMIN_COOKIE, await expectedToken(), {
     httpOnly: true,
     sameSite: "lax",
     path: "/",

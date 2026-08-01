@@ -94,5 +94,9 @@ sudo certbot --nginx -d onexall.vip -d www.onexall.vip
 - Product visibility is saved in `product-settings.json`; admin credentials
   (hashed) in `admin-credentials.json` — both live next to the app and
   survive restarts.
+- On **Vercel** the filesystem is read-only, so those two files are stored in
+  a Vercel Blob store instead. Create one in the Vercel dashboard
+  (Storage → Create → Blob), connect it to the project so
+  `BLOB_READ_WRITE_TOKEN` is set, then redeploy.
 - If you ever change code: `npm install && npm run build`, then
   `sudo systemctl restart onexall-vip`.

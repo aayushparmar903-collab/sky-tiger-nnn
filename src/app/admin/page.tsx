@@ -15,6 +15,6 @@ export default async function AdminPage() {
   if (!(await isAdminAuthed())) {
     redirect("/admin/login");
   }
-  const settings = getProductSettings();
-  return <AdminDashboard initialSettings={settings} currentUser={currentUser()} />;
+  const settings = await getProductSettings();
+  return <AdminDashboard initialSettings={settings} currentUser={await currentUser()} />;
 }

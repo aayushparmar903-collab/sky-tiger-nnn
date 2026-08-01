@@ -3,8 +3,8 @@ import { getProductSettings } from "@/lib/settings";
 import { SITE } from "@/lib/site";
 import ProductGrid from "./ProductGrid";
 
-export default function Products() {
-  const settings = getProductSettings();
+export default async function Products() {
+  const settings = await getProductSettings();
   const visible = PRODUCTS.filter((p) => settings.enabled[p.id]);
 
   return (

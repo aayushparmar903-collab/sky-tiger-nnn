@@ -5,7 +5,7 @@ export async function GET() {
   if (!(await isAdminAuthed())) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
-  return Response.json(getProductSettings());
+  return Response.json(await getProductSettings());
 }
 
 export async function POST(request: Request) {
@@ -30,6 +30,6 @@ export async function POST(request: Request) {
     clean[id] = typeof raw[id] === "boolean" ? (raw[id] as boolean) : true;
   }
 
-  const saved = saveProductSettings(clean);
+  const saved = await saveProductSettings(clean);
   return Response.json(saved);
 }

@@ -17,7 +17,7 @@ export async function POST(request: Request) {
   const newUsername = typeof body.newUsername === "string" ? body.newUsername.trim() : "";
   const newPassword = typeof body.newPassword === "string" ? body.newPassword : "";
 
-  if (!checkPassword(currentPassword)) {
+  if (!(await checkPassword(currentPassword))) {
     return Response.json({ ok: false, error: "Current password is wrong" }, { status: 403 });
   }
   if (newUsername.length < 3) {
@@ -27,16 +27,16 @@ export async function POST(request: Request) {
     return Response.json({ ok: false, error: "Password must be at least 6 characters" }, { status: 400 });
   }
 
-  saveCredentials(newUsername, newPassword);
+  await saveCredentials(newUsername, newPassword);
 
   // re-issue the session cookie — it derives from the credentials
   const jar = await cookies();
-  jar.set(ADMIN_COOKIE, expectedToken(), {
+  jar.set(ADMIN_COOKIE, await expectedToken(), {
     httpOnly: true,
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 60 * 24,
   });
 
-  return Response.json({ ok: true, user: currentUser() });
+  return Response.json({ ok: true, user: await currentUser() });
 }

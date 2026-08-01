@@ -1,11 +1,10 @@
-import { readFileSync, writeFileSync, existsSync } from "fs";
-import path from "path";
 import { PRODUCTS } from "./products";
+import { readJson, writeJson } from "./storage";
 
 /**
  * Server-only product visibility settings, persisted to product-settings.json
- * in the project root so the /admin panel can toggle product cards at runtime
- * without a database.
+ * (Vercel Blob in production, local file elsewhere) so the /admin panel can
+ * toggle product cards at runtime without a database.
  */
 
 export interface ProductSettings {
@@ -13,7 +12,7 @@ export interface ProductSettings {
   updatedAt: string;
 }
 
-const SETTINGS_PATH = path.join(process.cwd(), "product-settings.json");
+const SETTINGS_NAME = "product-settings.json";
 
 export const PRODUCT_IDS = PRODUCTS.map((p) => p.id);
 
@@ -24,17 +23,18 @@ export function defaultSettings(): ProductSettings {
   };
 }
 
-export function getProductSettings(): ProductSettings {
+export async function getProductSettings(): Promise<ProductSettings> {
   try {
-    if (existsSync(SETTINGS_PATH)) {
-      const raw = JSON.parse(readFileSync(SETTINGS_PATH, "utf-8"));
+    const raw = await readJson(SETTINGS_NAME);
+    if (raw) {
       const defaults = defaultSettings();
+      const stored = raw as Partial<ProductSettings>;
       for (const id of PRODUCT_IDS) {
-        if (typeof raw?.enabled?.[id] === "boolean") {
-          defaults.enabled[id] = raw.enabled[id];
+        if (typeof stored?.enabled?.[id] === "boolean") {
+          defaults.enabled[id] = stored.enabled[id];
         }
       }
-      defaults.updatedAt = typeof raw?.updatedAt === "string" ? raw.updatedAt : defaults.updatedAt;
+      defaults.updatedAt = typeof stored?.updatedAt === "string" ? stored.updatedAt : defaults.updatedAt;
       return defaults;
     }
   } catch {
@@ -43,11 +43,11 @@ export function getProductSettings(): ProductSettings {
   return defaultSettings();
 }
 
-export function saveProductSettings(enabled: Record<string, boolean>): ProductSettings {
+export async function saveProductSettings(enabled: Record<string, boolean>): Promise<ProductSettings> {
   // never allow every product to be switched off — the page must keep one card
   const anyOn = PRODUCT_IDS.some((id) => enabled[id]);
   const safe = anyOn ? enabled : { ...enabled, [PRODUCT_IDS[0]]: true };
   const settings: ProductSettings = { enabled: safe, updatedAt: new Date().toISOString() };
-  writeFileSync(SETTINGS_PATH, JSON.stringify(settings, null, 2), "utf-8");
+  await writeJson(SETTINGS_NAME, settings);
   return settings;
 }
