@@ -1,4 +1,5 @@
 import { SITE } from "@/lib/site";
+import { PRODUCTS } from "@/lib/products";
 
 const REASONS = [
   {
@@ -79,7 +80,7 @@ export default function WhyUs() {
           {[
             { v: `₹${SITE.minId}`, l: "Minimum ID" },
             { v: "5 Min", l: "Avg. Withdrawal" },
-            { v: "3", l: "Elite Platforms" },
+            { v: String(PRODUCTS.length), l: "Elite Platforms" },
             { v: "24/7", l: "Live Support" },
           ].map((s) => (
             <div key={s.l} className="px-6 py-7 text-center">

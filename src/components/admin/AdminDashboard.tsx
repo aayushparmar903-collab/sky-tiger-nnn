@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { PRODUCTS } from "@/lib/products";
+import { PRODUCTS, orderedProducts } from "@/lib/products";
 import type { ProductSettings } from "@/lib/settings";
 import CredentialsForm from "./CredentialsForm";
 
@@ -18,17 +18,20 @@ interface AdminDashboardProps {
 export default function AdminDashboard({ initialSettings, currentUser }: AdminDashboardProps) {
   const router = useRouter();
   const [enabled, setEnabled] = useState<Record<string, boolean>>(initialSettings.enabled);
+  const [order, setOrder] = useState<string[]>(
+    initialSettings.order?.length ? initialSettings.order : PRODUCTS.map((p) => p.id)
+  );
   const [updatedAt, setUpdatedAt] = useState<string>(initialSettings.updatedAt);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [hint, setHint] = useState<string | null>(null);
 
-  async function save(next: Record<string, boolean>) {
+  async function save(nextEnabled: Record<string, boolean>, nextOrder: string[]) {
     setSaveState("saving");
     try {
       const res = await fetch("/api/admin/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ enabled: next }),
+        body: JSON.stringify({ enabled: nextEnabled, order: nextOrder }),
       });
       if (res.status === 401) {
         router.replace("/admin/login");
@@ -40,6 +43,7 @@ export default function AdminDashboard({ initialSettings, currentUser }: AdminDa
       }
       const saved = (await res.json()) as ProductSettings;
       setEnabled(saved.enabled);
+      setOrder(saved.order);
       setUpdatedAt(saved.updatedAt);
       setSaveState("saved");
     } catch {
@@ -55,7 +59,18 @@ export default function AdminDashboard({ initialSettings, currentUser }: AdminDa
     }
     setHint(null);
     setEnabled(next);
-    void save(next);
+    void save(next, order);
+  }
+
+  function move(id: string, dir: -1 | 1) {
+    const idx = order.indexOf(id);
+    const target = idx + dir;
+    if (idx < 0 || target < 0 || target >= order.length) return;
+    const next = [...order];
+    [next[idx], next[target]] = [next[target], next[idx]];
+    setHint(null);
+    setOrder(next);
+    void save(enabled, next);
   }
 
   async function logout() {
@@ -68,6 +83,7 @@ export default function AdminDashboard({ initialSettings, currentUser }: AdminDa
 
   const savedTime = new Date(updatedAt).toLocaleTimeString();
   const liveCount = PRODUCTS.filter((p) => enabled[p.id]).length;
+  const list = orderedProducts(order);
 
   return (
     <div className="min-h-screen bg-[var(--color-void)]">
@@ -91,11 +107,12 @@ export default function AdminDashboard({ initialSettings, currentUser }: AdminDa
 
         <p className="mb-8 max-w-2xl text-sm text-white/50">
           Switch a product off and its card instantly disappears from the onexall.vip landing page.
+          Use the arrows to change the display order — position 1 shows first.
           At least one product must stay on. Currently live: {liveCount} of {PRODUCTS.length}.
         </p>
 
         <div className="grid gap-5 sm:grid-cols-3">
-          {PRODUCTS.map((p) => {
+          {list.map((p, index) => {
             const on = enabled[p.id];
             return (
               <div
@@ -148,6 +165,28 @@ export default function AdminDashboard({ initialSettings, currentUser }: AdminDa
                   <span className={`text-sm font-medium ${on ? "text-emerald-400" : "text-white/40"}`}>
                     {on ? "Live" : "Hidden"}
                   </span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    aria-label={`Move ${p.name} earlier`}
+                    disabled={index === 0}
+                    onClick={() => move(p.id, -1)}
+                    className="btn-lux btn-ghost px-3 py-1.5 text-xs disabled:cursor-not-allowed disabled:opacity-30"
+                  >
+                    ←
+                  </button>
+                  <span className="text-xs text-white/40">Position {index + 1}</span>
+                  <button
+                    type="button"
+                    aria-label={`Move ${p.name} later`}
+                    disabled={index === list.length - 1}
+                    onClick={() => move(p.id, 1)}
+                    className="btn-lux btn-ghost px-3 py-1.5 text-xs disabled:cursor-not-allowed disabled:opacity-30"
+                  >
+                    →
+                  </button>
                 </div>
 
                 <span className="text-xs" style={{ color: p.accent }}>

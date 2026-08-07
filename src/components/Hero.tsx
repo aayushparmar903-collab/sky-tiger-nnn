@@ -2,7 +2,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import Image from "next/image";
 import { SITE } from "@/lib/site";
-import { PRODUCTS, type Product } from "@/lib/products";
+import { orderedProducts, type Product } from "@/lib/products";
 import { getProductSettings } from "@/lib/settings";
 
 /** "SKY247, REDDY247 and TIGEREXCH" style join for the live platform names. */
@@ -34,7 +34,7 @@ function findHeroArt(): { desktop: string; mobile: string | null } | null {
 export default async function Hero() {
   const heroArt = findHeroArt();
   const settings = await getProductSettings();
-  const visible = PRODUCTS.filter((p) => settings.enabled[p.id]);
+  const visible = orderedProducts(settings.order).filter((p) => settings.enabled[p.id]);
 
   return (
     <section id="top" className="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-28">

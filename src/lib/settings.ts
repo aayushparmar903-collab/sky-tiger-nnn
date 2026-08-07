@@ -9,6 +9,8 @@ import { readJson, writeJson } from "./storage";
 
 export interface ProductSettings {
   enabled: Record<string, boolean>;
+  /** product ids in display order (first = shown first on the page) */
+  order: string[];
   updatedAt: string;
 }
 
@@ -16,9 +18,19 @@ const SETTINGS_NAME = "product-settings.json";
 
 export const PRODUCT_IDS = PRODUCTS.map((p) => p.id);
 
+/** Keep only known ids, then append any new products at the end. */
+function sanitizeOrder(stored: unknown): string[] {
+  const list = Array.isArray(stored)
+    ? stored.filter((id): id is string => typeof id === "string" && (PRODUCT_IDS as string[]).includes(id))
+    : [];
+  const missing = PRODUCT_IDS.filter((id) => !list.includes(id));
+  return [...list, ...missing];
+}
+
 export function defaultSettings(): ProductSettings {
   return {
     enabled: Object.fromEntries(PRODUCT_IDS.map((id) => [id, true])),
+    order: [...PRODUCT_IDS],
     updatedAt: new Date().toISOString(),
   };
 }
@@ -34,6 +46,7 @@ export async function getProductSettings(): Promise<ProductSettings> {
           defaults.enabled[id] = stored.enabled[id];
         }
       }
+      defaults.order = sanitizeOrder(stored?.order);
       defaults.updatedAt = typeof stored?.updatedAt === "string" ? stored.updatedAt : defaults.updatedAt;
       return defaults;
     }
@@ -43,11 +56,18 @@ export async function getProductSettings(): Promise<ProductSettings> {
   return defaultSettings();
 }
 
-export async function saveProductSettings(enabled: Record<string, boolean>): Promise<ProductSettings> {
+export async function saveProductSettings(
+  enabled: Record<string, boolean>,
+  order?: unknown
+): Promise<ProductSettings> {
   // never allow every product to be switched off — the page must keep one card
   const anyOn = PRODUCT_IDS.some((id) => enabled[id]);
   const safe = anyOn ? enabled : { ...enabled, [PRODUCT_IDS[0]]: true };
-  const settings: ProductSettings = { enabled: safe, updatedAt: new Date().toISOString() };
+  const settings: ProductSettings = {
+    enabled: safe,
+    order: sanitizeOrder(order),
+    updatedAt: new Date().toISOString(),
+  };
   await writeJson(SETTINGS_NAME, settings);
   return settings;
 }

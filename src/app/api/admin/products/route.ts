@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  let body: { enabled?: unknown };
+  let body: { enabled?: unknown; order?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -30,6 +30,6 @@ export async function POST(request: Request) {
     clean[id] = typeof raw[id] === "boolean" ? (raw[id] as boolean) : true;
   }
 
-  const saved = await saveProductSettings(clean);
+  const saved = await saveProductSettings(clean, body.order);
   return Response.json(saved);
 }

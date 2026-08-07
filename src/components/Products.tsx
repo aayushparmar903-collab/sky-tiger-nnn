@@ -1,11 +1,11 @@
-import { PRODUCTS } from "@/lib/products";
+import { orderedProducts } from "@/lib/products";
 import { getProductSettings } from "@/lib/settings";
 import { SITE } from "@/lib/site";
 import ProductGrid from "./ProductGrid";
 
 export default async function Products() {
   const settings = await getProductSettings();
-  const visible = PRODUCTS.filter((p) => settings.enabled[p.id]);
+  const visible = orderedProducts(settings.order).filter((p) => settings.enabled[p.id]);
 
   return (
     <section id="products" className="relative py-20 sm:py-28">

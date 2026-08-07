@@ -91,3 +91,10 @@ export const PRODUCTS: Product[] = [
     features: ["Back & lay exchange", "24×7 live markets", "Fast, secure payouts"],
   },
 ];
+
+/** PRODUCTS sorted by the admin-controlled display order (unknown ids last). */
+export function orderedProducts(order?: string[]): Product[] {
+  if (!order?.length) return PRODUCTS;
+  const rank = new Map(order.map((id, i) => [id, i]));
+  return [...PRODUCTS].sort((a, b) => (rank.get(a.id) ?? 999) - (rank.get(b.id) ?? 999));
+}
