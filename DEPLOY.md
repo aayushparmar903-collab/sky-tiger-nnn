@@ -87,7 +87,7 @@ sudo certbot --nginx -d onexall.vip -d www.onexall.vip
 - Default login: **admin / rayz247**
 - FIRST THING after login: use the **Security** box at the bottom of the
   panel to set your own username + password.
-- From the same panel you can switch the 3 product cards on/off live.
+- From the same panel you can switch the 6 product cards on/off live.
 
 ## Notes
 

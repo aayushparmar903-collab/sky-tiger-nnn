@@ -22,10 +22,10 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://onexall.vip"),
-  title: "ONEXALL.VIP — Premium Gaming IDs | SKY247 · REDDY247 · TIGEREXCH",
+  title: "ONEXALL.VIP — Premium Gaming IDs | SKY247 · REDDY247 · TIGEREXCH · 1XBETFAIR · LASER247 · RADHEEXCH",
   description:
-    "ONEXALL.VIP — India's premium gaming ID provider. Get your SKY247, REDDY247 or TIGEREXCH ID from just ₹300. Instant UPI deposits, 5-minute withdrawals, 24/7 support.",
-  keywords: ["onexall", "onexall.vip", "sky247 id", "reddy247 id", "tigerexch id", "gaming id", "cricket id"],
+    "ONEXALL.VIP — India's premium gaming ID provider. Get your SKY247, REDDY247, TIGEREXCH, 1XBETFAIR, LASER247 or RADHEEXCH ID from just ₹300. Instant UPI deposits, 5-minute withdrawals, 24/7 support.",
+  keywords: ["onexall", "onexall.vip", "sky247 id", "reddy247 id", "tigerexch id", "1xbetfair id", "laser247 id", "radheexch id", "gaming id", "cricket id"],
   openGraph: {
     siteName: "ONEXALL.VIP",
     type: "website",

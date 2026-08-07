@@ -2,7 +2,15 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import Image from "next/image";
 import { SITE } from "@/lib/site";
-import { PRODUCTS } from "@/lib/products";
+import { PRODUCTS, type Product } from "@/lib/products";
+import { getProductSettings } from "@/lib/settings";
+
+/** "SKY247, REDDY247 and TIGEREXCH" style join for the live platform names. */
+function joinNames(products: Product[]): string {
+  const names = products.map((p) => p.name);
+  if (names.length <= 1) return names.join("");
+  return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+}
 
 /**
  * Hero. If you drop a `hero.webp` (or hero.png / hero.jpg) into /public,
@@ -23,8 +31,10 @@ function findHeroArt(): { desktop: string; mobile: string | null } | null {
   return { desktop, mobile };
 }
 
-export default function Hero() {
+export default async function Hero() {
   const heroArt = findHeroArt();
+  const settings = await getProductSettings();
+  const visible = PRODUCTS.filter((p) => settings.enabled[p.id]);
 
   return (
     <section id="top" className="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-28">
@@ -81,7 +91,7 @@ export default function Hero() {
               className="reveal mx-auto mt-10 max-w-xl text-base leading-relaxed text-[var(--color-mist)] sm:text-lg"
               style={{ "--reveal-delay": "220ms" } as React.CSSProperties}
             >
-              {SITE.name} is your single gateway to SKY247, REDDY247 and TIGEREXCH —
+              {SITE.name} is your single gateway to {joinNames(visible)} —
               verified IDs, instant UPI deposits and 5-minute withdrawals.
             </p>
 
@@ -103,7 +113,7 @@ export default function Hero() {
             </div>
           </div>
         ) : (
-          <FallbackHero />
+          <FallbackHero visible={visible} />
         )}
       </div>
     </section>
@@ -111,7 +121,7 @@ export default function Hero() {
 }
 
 /** Shown until /public/hero.webp is provided. */
-function FallbackHero() {
+function FallbackHero({ visible }: { visible: Product[] }) {
   return (
     <>
       <div className="mx-auto max-w-3xl text-center">
@@ -128,14 +138,14 @@ function FallbackHero() {
         >
           One Pass.
           <br />
-          <span className="text-gradient">Three Elite Platforms.</span>
+          <span className="text-gradient">Six Elite Platforms.</span>
         </h1>
 
         <p
           className="reveal mx-auto mt-6 max-w-xl text-base leading-relaxed text-[var(--color-mist)] sm:text-lg"
           style={{ "--reveal-delay": "180ms" } as React.CSSProperties}
         >
-          {SITE.name} is your single gateway to SKY247, REDDY247 and TIGEREXCH —
+          {SITE.name} is your single gateway to {joinNames(visible)} —
           verified IDs, instant UPI deposits and 5-minute withdrawals.
         </p>
 
@@ -164,8 +174,8 @@ function FallbackHero() {
         <div className="glass relative rounded-[1.75rem] px-6 py-10 sm:px-12 sm:py-14">
           <div className="pointer-events-none absolute inset-x-16 top-0 divider-glow" />
           <p className="eyebrow text-center">Our Platforms</p>
-          <div className="mt-9 flex flex-col items-center justify-center gap-10 sm:flex-row sm:gap-16">
-            {PRODUCTS.map((p, i) => (
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-x-12 gap-y-8 sm:gap-x-14">
+            {visible.map((p, i) => (
               <div key={p.id} className="animate-float" style={{ animationDelay: `${i * -2.2}s` }}>
                 <div className="relative h-12 w-44 sm:h-16 sm:w-56">
                   <Image

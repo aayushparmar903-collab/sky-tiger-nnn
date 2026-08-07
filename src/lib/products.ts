@@ -7,7 +7,7 @@ export interface Product {
   url: string;
   logo: { src: string; width: number; height: number; alt: string };
   /** tailwind size classes for the logo box — tuned per logo shape so all
-      three carry the same visual weight on the cards */
+      logos carry the same visual weight on the cards */
   logoBox: string;
   /** brand accent colors, applied via CSS vars on the card */
   accent: string;
@@ -53,5 +53,41 @@ export const PRODUCTS: Product[] = [
     accent: "#2f7fe0",
     accent2: "#ff7a18",
     features: ["Back & lay exchange", "Sharpest market odds", "Pro-grade live trading"],
+  },
+  {
+    id: "1xbetfair",
+    name: "1XBETFAIR",
+    tagline: "Winning Starts Here",
+    desc: "Global exchange & sportsbook in one — deep markets, sharp odds and nonstop live action.",
+    url: "https://1xbetfair.me/",
+    logo: { src: "/brands/1xbetfair.png", width: 1200, height: 382, alt: "1XBETFAIR logo" },
+    logoBox: "h-12 w-40 sm:h-14 sm:w-48",
+    accent: "#26a9e0",
+    accent2: "#7cc4ff",
+    features: ["Exchange + sportsbook in one", "Live cricket & football markets", "Instant UPI deposits"],
+  },
+  {
+    id: "laser247",
+    name: "LASER247",
+    tagline: "Speed Wins. Every Time.",
+    desc: "Lightning-fast IDs and rapid-fire odds across cricket, tennis and the full casino floor.",
+    url: "https://laser247.global/",
+    logo: { src: "/brands/laser247.png", width: 654, height: 190, alt: "LASER247 logo" },
+    logoBox: "h-11 w-40 sm:h-13 sm:w-48",
+    accent: "#ff3b47",
+    accent2: "#ffb03a",
+    features: ["Instant ID activation", "Live in-play markets", "5-minute withdrawals"],
+  },
+  {
+    id: "radheexch",
+    name: "RADHEEXCH",
+    tagline: "The Exchange You Trust",
+    desc: "A smooth exchange experience — back & lay, round-the-clock live markets and quick payouts.",
+    url: "https://radheexch.online/",
+    logo: { src: "/brands/radheexch.png", width: 262, height: 85, alt: "RADHEEXCH logo" },
+    logoBox: "h-12 w-40 sm:h-14 sm:w-48",
+    accent: "#2dd4bf",
+    accent2: "#38bdf8",
+    features: ["Back & lay exchange", "24×7 live markets", "Fast, secure payouts"],
   },
 ];

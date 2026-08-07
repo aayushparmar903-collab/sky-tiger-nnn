@@ -37,7 +37,7 @@ export default function ProductGrid({ products }: { products: Product[] }) {
                 <span className="chip-tag absolute right-5 top-5 !text-[0.6rem]">{p.badge}</span>
               )}
 
-              {/* logo — box size tuned per brand so all three look equally big */}
+              {/* logo — box size tuned per brand so all cards carry equal visual weight */}
               <div className="flex h-24 items-center">
                 <div className={`relative transition-transform duration-500 group-hover:scale-105 ${p.logoBox}`}>
                   <Image
