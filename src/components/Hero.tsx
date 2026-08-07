@@ -4,6 +4,7 @@ import Image from "next/image";
 import { SITE } from "@/lib/site";
 import { orderedProducts, type Product } from "@/lib/products";
 import { getProductSettings } from "@/lib/settings";
+import LogoOrbit from "@/components/LogoOrbit";
 
 /** "SKY247, REDDY247 and TIGEREXCH" style join for the live platform names. */
 function joinNames(products: Product[]): string {
@@ -111,6 +112,9 @@ export default async function Hero() {
                 View Platforms
               </a>
             </div>
+
+            {/* 3D rotating ring of the live platform logos */}
+            <LogoOrbit products={visible} />
           </div>
         ) : (
           <FallbackHero visible={visible} />
