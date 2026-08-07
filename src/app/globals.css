@@ -487,10 +487,11 @@ body {
   position: absolute;
   inset: 0;
   transform-style: preserve-3d;
-  animation: orbit-spin 38s linear infinite;
+  animation: orbit-spin 24s linear infinite;
 }
 
-.orbit-stage:hover .orbit-ring {
+.orbit-stage:hover .orbit-ring,
+.orbit-stage:hover .orbit-face {
   animation-play-state: paused;
 }
 
@@ -505,7 +506,24 @@ body {
   height: 64px;
   padding: 10px 16px;
   border-radius: 1rem;
+  transform-style: preserve-3d;
+}
+
+/* counter-rotates against the ring so the logo always faces the viewer —
+   panels glide around the globe instead of flipping in/out at the edges */
+.orbit-face {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
   backface-visibility: hidden;
+  animation: orbit-counter 24s linear infinite;
+}
+
+@keyframes orbit-counter {
+  from { transform: rotateY(calc(var(--a) * -1)); }
+  to { transform: rotateY(calc((var(--a) + 360deg) * -1)); }
 }
 
 @media (min-width: 640px) {
@@ -545,5 +563,9 @@ body {
   .orbit-ring {
     animation: none;
     transform: rotateX(-10deg);
+  }
+  .orbit-face {
+    animation: none;
+    transform: rotateY(calc(var(--a) * -1));
   }
 }

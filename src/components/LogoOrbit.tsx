@@ -2,9 +2,10 @@ import Image from "next/image";
 import type { Product } from "@/lib/products";
 
 /**
- * Pure-CSS 3D showpiece: the live platform logos rotate on a horizontal
- * ring in the hero. No JS — the ring spins via keyframes, pauses on hover,
- * and freezes into a static arc under prefers-reduced-motion.
+ * Pure-CSS 3D showpiece: the live platform logos orbit a globe-style ring
+ * in the hero. Every panel counter-rotates while the ring spins, so logos
+ * always face the viewer and glide smoothly — no popping at the edges.
+ * No JS; pauses on hover, freezes under prefers-reduced-motion.
  */
 export default function LogoOrbit({ products }: { products: Product[] }) {
   const n = products.length;
@@ -21,17 +22,22 @@ export default function LogoOrbit({ products }: { products: Product[] }) {
           <div
             key={p.id}
             className="orbit-panel glass"
-            style={{
-              transform: `translate(-50%, -50%) rotateY(${(360 / n) * i}deg) translateZ(var(--orbit-radius))`,
-            }}
+            style={
+              {
+                "--a": `${(360 / n) * i}deg`,
+                transform: "translate(-50%, -50%) rotateY(var(--a)) translateZ(var(--orbit-radius))",
+              } as React.CSSProperties
+            }
           >
-            <Image
-              src={p.logo.src}
-              alt={p.logo.alt}
-              width={p.logo.width}
-              height={p.logo.height}
-              className="orbit-logo"
-            />
+            <div className="orbit-face">
+              <Image
+                src={p.logo.src}
+                alt={p.logo.alt}
+                width={p.logo.width}
+                height={p.logo.height}
+                className="orbit-logo"
+              />
+            </div>
           </div>
         ))}
       </div>
