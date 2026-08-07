@@ -13,7 +13,7 @@ export default function ProductGrid({ products }: { products: Product[] }) {
         : "md:grid-cols-3";
 
   return (
-    <div className={`mt-14 grid gap-6 lg:gap-8 ${layout}`}>
+    <div className={`grid gap-6 lg:gap-8 ${layout}`}>
       {products.map((p, i) => (
             <article
               key={p.id}

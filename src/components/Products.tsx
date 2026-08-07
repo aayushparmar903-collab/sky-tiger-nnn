@@ -10,7 +10,9 @@ export default async function Products() {
   return (
     <section id="products" className="relative py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="reveal mx-auto max-w-2xl text-center">
+        <ProductGrid products={visible} />
+
+        <div className="reveal mx-auto mt-16 max-w-2xl text-center">
           <p className="eyebrow">Choose Your Arena</p>
           <h2 className="font-display mt-4 text-3xl font-bold tracking-tight sm:text-5xl">
             Pick Your Platform. <span className="text-gradient">Play Your Way.</span>
@@ -19,8 +21,6 @@ export default async function Products() {
             Every ID starts at just ₹{SITE.minId} — verified, activated instantly and backed by {SITE.supportHours} support.
           </p>
         </div>
-
-        <ProductGrid products={visible} />
       </div>
     </section>
   );
